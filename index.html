@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lottozahlen-Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      #generate-button {
+        background-color: lightblue;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 10px 20px;
+      }
+      #result {
+        font-size: 20px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Lottozahlen-Generator</h1>
+    <button id="generate-button">Lottozahlen generieren</button>
+    <div id="result"></div>
+    <script>
+      function generateLottoNumbers() {
+        const numbers = [];
+        while (numbers.length < 6) {
+          const number = Math.floor(Math.random() * 49) + 1;
+          if (!numbers.includes(number)) {
+            numbers.push(number);
+          }
+        }
+        numbers.sort((a, b) => a - b);
+        const zusatzzahl = Math.floor(Math.random() * 10);
+        return { numbers, zusatzzahl };
+      }
+
+      const generateButton = document.getElementById('generate-button');
+      generateButton.addEventListener('click', () => {
+        const result = generateLottoNumbers();
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `Lottozahlen: ${result.numbers}<br>Zusatzzahl: ${result.zusatzzahl}`;
+      });
+    </script>
+  </body>
+</html>
