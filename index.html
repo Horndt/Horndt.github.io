@@ -15,9 +15,14 @@
         font-size: 16px;
         padding: 10px 20px;
       }
-      #result {
-        font-size: 20px;
+      table {
+        border-collapse: collapse;
         margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 5px;
       }
     </style>
   </head>
@@ -26,7 +31,12 @@
     <label for="count">Anzahl der Lottozahlen:</label>
     <input type="number" id="count" value="1" />
     <button id="generate-button">Lottozahlen generieren</button>
-    <div id="result"></div>
+    <table id="result">
+      <tr>
+        <th>Lottozahlen</th>
+        <th>Zusatzzahl</th>
+      </tr>
+    </table>
     <script>
       function generateLottoNumbers() {
         const numbers = [];
@@ -44,15 +54,18 @@
       const generateButton = document.getElementById('generate-button');
       generateButton.addEventListener('click', () => {
         const count = document.getElementById('count').value;
-        const resultDiv = document.getElementById('result');
-        let result = '';
+        const resultTable = document.getElementById('result');
+        while (resultTable.rows.length > 1) {
+          resultTable.deleteRow(1);
+        }
         for (let i = 0; i < count; i++) {
           const lottoNumbers = generateLottoNumbers();
-          result += `Lottozahlen ${i + 1}: ${
-            lottoNumbers.numbers
-          } Zusatzzahl: ${lottoNumbers.zusatzzahl}<br>`;
+          const row = resultTable.insertRow();
+          const numbersCell = row.insertCell();
+          numbersCell.innerHTML = lottoNumbers.numbers.join(', ');
+          const zusatzzahlCell = row.insertCell();
+          zusatzzahlCell.innerHTML = lottoNumbers.zusatzzahl;
         }
-        resultDiv.innerHTML = result;
       });
     </script>
   </body>
