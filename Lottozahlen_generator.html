@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lottozahlen-Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <button id="lotto-button">
+      <a href="index.html">Zurück zur Startseite</a>
+    </button>
+    <h1>Lottozahlen-Generator</h1>
+    <label for="count">Anzahl der Lottozahlen:</label>
+    <input type="number" id="count" value="1" />
+    <button id="generate-button">Lottozahlen generieren</button>
+    <table id="result">
+      <tr>
+        <th>Lottozahlen</th>
+        <th>Zusatzzahl</th>
+      </tr>
+    </table>
+    <script>
+      function generateLottoNumbers() {
+        const numbers = [];
+        while (numbers.length < 6) {
+          const number = Math.floor(Math.random() * 49) + 1;
+          if (!numbers.includes(number)) {
+            numbers.push(number);
+          }
+        }
+        numbers.sort((a, b) => a - b);
+        const zusatzzahl = Math.floor(Math.random() * 10);
+        return { numbers, zusatzzahl };
+      }
+
+      const generateButton = document.getElementById('generate-button');
+      generateButton.addEventListener('click', () => {
+        const count = document.getElementById('count').value;
+        const resultTable = document.getElementById('result');
+        while (resultTable.rows.length > 1) {
+          resultTable.deleteRow(1);
+        }
+        for (let i = 0; i < count; i++) {
+          const lottoNumbers = generateLottoNumbers();
+          const row = resultTable.insertRow();
+          const numbersCell = row.insertCell();
+          numbersCell.innerHTML = lottoNumbers.numbers.join(', ');
+          const zusatzzahlCell = row.insertCell();
+          zusatzzahlCell.innerHTML = lottoNumbers.zusatzzahl;
+        }
+      });
+    </script>
+  </body>
+</html>
